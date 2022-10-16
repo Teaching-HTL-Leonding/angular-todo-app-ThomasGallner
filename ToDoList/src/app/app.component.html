@@ -1,0 +1,66 @@
+<h1>ToDo List</h1>
+
+<h2>Table of ToDos</h2>
+
+<form>
+  <div *ngFor="let task of this.getTasks(); let ix = index">
+    <label>Description:
+      <input [disabled]="!this.isInEditMode" type="text" [id]="'desc'+ix" [name]="'desc'+ix" [(ngModel)]="this.task.description">
+    </label>
+    <label>Assigned to:
+      <select [disabled]="!this.isInEditMode" [id]="'assignedTo'+ix" [name]="'assignedTo' + ix" [(ngModel)]="this.task.assignedPerson">
+        <option></option>
+        <option *ngFor="let assignee of this.getAssignees()">{{assignee}}</option>
+      </select>
+    </label>
+    <label>
+      <button [hidden] = "!this.isInEditMode"
+      [id]="'delete'+ix" [name]="'delete'+ix" (click)="this.tasks.splice(ix, 1)">Delete</button>
+    </label>
+  </div>
+
+  <button (click)="this.toggleEditMode()">{{this.isInEditMode | editModeIntoButtonText}}</button>
+</form>
+<!-- <div>
+  <label>Only show undone tasks:
+    <input type="checkbox" id="onlyGetUndoneTasks" name="onlyGetUndoneTasks" [(ngModel)]="this.onlyShowUndoneTasks">
+  </label>
+
+  <label>Assigned to:
+    <input type="text" id="assignedToFilter" name="assignedToFilter" [(ngModel)]="this.assignedToFilter">
+  </label>
+</div>
+
+<table>
+  <tbody>
+    <tr>
+      <th>Description</th>
+      <th>Assigned Person</th>
+      <th>Done</th>
+    </tr>
+    <tr *ngFor="let task of this.getTasks()">
+      <td>{{task.description}}</td>
+      <td>{{task.assignedPerson}}</td>
+      <td>{{task.isDone}}</td>
+    </tr>
+  </tbody>
+</table> -->
+
+<h2>Create a new ToDo</h2>
+<form>
+  <div>
+    <label>Description:
+      <input type="text" id="description" name="description" [(ngModel)]="this.newTask.description">
+    </label>
+    <label>Assigned to:
+      <select id="assignedTo" name="assignedTo" [(ngModel)]="this.newTask.assignedPerson">
+        <option></option>
+        <option *ngFor="let assignee of this.getAssignees()">{{assignee}}</option>
+      </select>
+    </label>
+  </div>
+
+  <button (click)="this.createNewTask()">Save</button>
+</form>
+
+<router-outlet></router-outlet>
