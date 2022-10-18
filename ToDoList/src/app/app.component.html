@@ -2,34 +2,42 @@
 
 <h2>Table of ToDos</h2>
 
-<div>
-  <label>Only show undone tasks:
-    <input type="checkbox" id="onlyGetUndoneTasks" name="onlyGetUndoneTasks" [(ngModel)]="this.onlyShowUndoneTasks">
-  </label>
+<form #f="ngForm">
+  <div>
+    <label>Only show undone tasks:
+      <input type="checkbox" id="onlyShowUndoneTasks" name="onlyShowUndoneTasks" [(ngModel)]="this.onlyShowUndoneTasks">
+    </label>
 
-  <label>Assigned to:
-    <input type="text" id="assignedToFilter" name="assignedToFilter" [(ngModel)]="this.assignedToFilter">
-  </label>
-</div>
+    <label>Assigned to:
+      <input type="text" id="assignedToFilter" name="assignedToFilter" [(ngModel)]="this.assignedToFilter">
+    </label>
+  </div>
 
-<form>
   <div *ngFor="let task of this.getTasks(); let ix = index">
     <label>Description:
-      <input [disabled]="!this.isInEditMode" type="text" [id]="'desc'+ix" [name]="'desc'+ix" [(ngModel)]="this.task.description">
+      <input [disabled]="!this.isInEditMode" type="text" [id]="'desc'+ix" [name]="'desc'+ix"
+        [(ngModel)]="this.task.description">
     </label>
     <label>Assigned to:
-      <select [disabled]="!this.isInEditMode" [id]="'assignedTo'+ix" [name]="'assignedTo' + ix" [(ngModel)]="this.task.assignedPerson">
+      <select [disabled]="!this.isInEditMode" [id]="'assignedTo'+ix" [name]="'assignedTo' + ix"
+        [(ngModel)]="this.task.assignedPerson">
         <option></option>
         <option *ngFor="let assignee of this.getAssignees()">{{assignee}}</option>
       </select>
     </label>
     <label [hidden]="!this.isInEditMode">Done:
-      <input [hidden]="!this.isInEditMode" type="checkbox" [id]="'done'+ix" [name]="'done'+ix" [(ngModel)]="this.task.isDone">
+      <input [hidden]="!this.isInEditMode" type="checkbox" [id]="'done'+ix" [name]="'done'+ix"
+        [(ngModel)]="this.task.isDone">
     </label>
     <label>
-      <button [hidden] = "!this.isInEditMode"
-      [id]="'delete'+ix" [name]="'delete'+ix" (click)="this.tasks.splice(ix, 1)">Delete</button>
+      <button [hidden]="!this.isInEditMode" [id]="'delete'+ix" [name]="'delete'+ix"
+        (click)="this.tasks.splice(ix, 1)">Delete</button>
     </label>
+
+    <!-- FEHLER TODO -->
+    <div>
+      <p>{{this.task | json}}</p>
+    </div>
   </div>
 
   <button (click)="this.toggleEditMode()">{{this.isInEditMode | editModeIntoButtonText}}</button>
@@ -66,5 +74,6 @@
 
   <button (click)="this.createNewTask()">Save</button>
 </form>
+
 
 <router-outlet></router-outlet>

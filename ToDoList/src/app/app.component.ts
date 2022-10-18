@@ -2,9 +2,9 @@ import { Component, ɵisListLikeIterable } from '@angular/core';
 
 class Task {
   constructor(
-    public description: string = "",
+    public description: string = '',
     public isDone: boolean = false,
-    public assignedPerson: string = ""
+    public assignedPerson: string = ''
   ) {}
 }
 
@@ -18,19 +18,22 @@ export class AppComponent {
   public onlyShowUndoneTasks: boolean;
   public assignedToFilter: string | undefined;
   public newTask: Task;
-  private assignees: string[]
+  private assignees: string[];
   public isInEditMode: boolean;
 
   constructor() {
-    this.assignees= [
-      "Thomas Gallner","Robin Mayrhofer", "Max Mustermann", "Maria Musterfrau"
+    this.assignees = [
+      'Thomas Gallner',
+      'Robin Mayrhofer',
+      'Max Mustermann',
+      'Maria Musterfrau',
     ];
 
     this.tasks = [
-      new Task("do Angular homework", false, this.assignees[0]),
-      new Task("do German homework", false, this.assignees[1]),
-      new Task("do C# homework", false),
-      new Task("do the dishes", true, this.assignees[0]),
+      new Task('do Angular homework', false, this.assignees[0]),
+      new Task('do German homework', false, this.assignees[1]),
+      new Task('do C# homework', false),
+      new Task('do the dishes', true, this.assignees[0]),
     ];
 
     this.onlyShowUndoneTasks = false;
@@ -42,12 +45,10 @@ export class AppComponent {
   public getTasks(): Task[] {
     let result: Task[] = this.tasks;
 
-    if(this.onlyShowUndoneTasks){
-      result = result.filter(
-        (task) => !task.isDone
-      );
+    if (this.onlyShowUndoneTasks) {
+      result = result.filter((task) => !task.isDone);
     }
-    if(this.assignedToFilter !== ""){
+    if (this.assignedToFilter !== '') {
       result = result.filter(
         (task) => task.assignedPerson == this.assignedToFilter
       );
@@ -56,7 +57,7 @@ export class AppComponent {
     return result;
   }
 
-  public getAssignees(): string[]{
+  public getAssignees(): string[] {
     return this.assignees;
   }
 
@@ -65,7 +66,7 @@ export class AppComponent {
     this.newTask = new Task();
   }
 
-  public toggleEditMode(){
+  public toggleEditMode() {
     this.isInEditMode = !this.isInEditMode;
   }
 }
