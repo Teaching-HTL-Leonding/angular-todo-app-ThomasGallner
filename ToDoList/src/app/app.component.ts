@@ -16,7 +16,7 @@ class Task {
 export class AppComponent {
   public tasks: Task[] = [];
   public onlyShowUndoneTasks: boolean;
-  public assignedToFilter: string | undefined;
+  public assignedToFilter: string;
   public newTask: Task;
   private assignees: string[];
   public isInEditMode: boolean;
@@ -49,8 +49,8 @@ export class AppComponent {
       result = result.filter((task) => !task.isDone);
     }
     if (this.assignedToFilter !== '') {
-      result = result.filter(
-        (task) => task.assignedPerson == this.assignedToFilter
+      result = result.filter((task) =>
+        task.assignedPerson.toLowerCase().includes(this.assignedToFilter.toLowerCase())
       );
     }
 

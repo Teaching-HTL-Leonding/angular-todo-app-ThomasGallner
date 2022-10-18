@@ -1,79 +1,77 @@
-<h1>ToDo List</h1>
+<div>
+  <h1>ToDo List</h1>
 
-<h2>Table of ToDos</h2>
+  <label>Only show undone Tasks:</label>
+  <mat-checkbox color="warn" id="onlyShowUndoneTasks" name="onlyShowUndoneTasks" [(ngModel)]="this.onlyShowUndoneTasks">
+  </mat-checkbox>
 
-<form #f="ngForm">
-  <div>
-    <label>Only show undone tasks:
-      <input type="checkbox" id="onlyShowUndoneTasks" name="onlyShowUndoneTasks" [(ngModel)]="this.onlyShowUndoneTasks">
-    </label>
+  <mat-form-field color="warn" appearance="fill">
+    <mat-label>Assigned to:</mat-label>
+    <input matInput type="text" id="assignedToFilter" name="assignedToFilter" [(ngModel)]="this.assignedToFilter">
+  </mat-form-field>
+</div>
 
-    <label>Assigned to:
-      <input type="text" id="assignedToFilter" name="assignedToFilter" [(ngModel)]="this.assignedToFilter">
-    </label>
-  </div>
-
-  <div *ngFor="let task of this.getTasks(); let ix = index">
-    <label>Description:
-      <input [disabled]="!this.isInEditMode" type="text" [id]="'desc'+ix" [name]="'desc'+ix"
-        [(ngModel)]="this.task.description">
-    </label>
-    <label>Assigned to:
-      <select [disabled]="!this.isInEditMode" [id]="'assignedTo'+ix" [name]="'assignedTo' + ix"
-        [(ngModel)]="this.task.assignedPerson">
-        <option></option>
-        <option *ngFor="let assignee of this.getAssignees()">{{assignee}}</option>
-      </select>
-    </label>
-    <label [hidden]="!this.isInEditMode">Done:
-      <input [hidden]="!this.isInEditMode" type="checkbox" [id]="'done'+ix" [name]="'done'+ix"
-        [(ngModel)]="this.task.isDone">
-    </label>
-    <label>
-      <button [hidden]="!this.isInEditMode" [id]="'delete'+ix" [name]="'delete'+ix"
-        (click)="this.tasks.splice(ix, 1)">Delete</button>
-    </label>
-
-    <!-- FEHLER TODO -->
-    <div>
-      <p>{{this.task | json}}</p>
-    </div>
-  </div>
-
-  <button (click)="this.toggleEditMode()">{{this.isInEditMode | editModeIntoButtonText}}</button>
-</form>
-
-<!-- <table>
+<table>
   <tbody>
     <tr>
       <th>Description</th>
       <th>Assigned Person</th>
       <th>Done</th>
+      <th [hidden]="!this.isInEditMode">Delete</th>
     </tr>
-    <tr *ngFor="let task of this.getTasks()">
-      <td>{{task.description}}</td>
-      <td>{{task.assignedPerson}}</td>
-      <td>{{task.isDone}}</td>
+    <tr *ngFor="let task of this.getTasks(); let ix = index">
+      <td>
+        <mat-form-field color="warn" appearance="fill">
+          <input matInput [disabled]="!this.isInEditMode" type="text" [id]="'desc'+ix" [name]="'desc'+ix"
+          [(ngModel)]="this.task.description">
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-form-field color="warn" appearance="fill">
+          <select matNativeControl required [disabled]="!this.isInEditMode" [id]="'assignedTo'+ix"
+            [name]="'assignedTo' + ix" [(ngModel)]="this.task.assignedPerson">
+            <option></option>
+            <option *ngFor="let assignee of this.getAssignees()">{{assignee}}</option>
+          </select>
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-checkbox color="warn" [disabled]="!this.isInEditMode" type="checkbox" [id]="'done'+ix" [name]="'done'+ix"
+          [(ngModel)]="this.task.isDone">
+        </mat-checkbox>
+      </td>
+      <td [hidden]="!this.isInEditMode">
+        <button mat-raised-button color="warn" [hidden]="!this.isInEditMode" [id]="'delete'+ix" [name]="'delete'+ix"
+          (click)="this.tasks.splice(ix, 1)">Delete</button>
+      </td>
     </tr>
   </tbody>
-</table> -->
+</table>
+
+<button mat-raised-button color="warn" id="tasks" (click)="this.toggleEditMode()">{{this.isInEditMode |
+  editModeIntoButtonText}}</button>
 
 <h2>Create a new ToDo</h2>
-<form>
-  <div>
-    <label>Description:
-      <input type="text" id="description" name="description" [(ngModel)]="this.newTask.description">
-    </label>
-    <label>Assigned to:
-      <select id="assignedTo" name="assignedTo" [(ngModel)]="this.newTask.assignedPerson">
-        <option></option>
-        <option *ngFor="let assignee of this.getAssignees()">{{assignee}}</option>
-      </select>
-    </label>
-  </div>
+<table>
+  <tr>
+    <td>
+      <mat-form-field color="warn" appearance="fill">
+        <mat-label>Description</mat-label>
+        <input matInput type="text" id="description" name="description" [(ngModel)]="this.newTask.description">
+      </mat-form-field>
+    </td>
+    <td>
+      <mat-form-field color="warn" appearance="fill">
+        <mat-label>Assigned to:</mat-label>
+        <select matNativeControl required id="assignedTo" name="assignedTo" [(ngModel)]="this.newTask.assignedPerson">
+          <option></option>
+          <option *ngFor="let assignee of this.getAssignees()">{{assignee}}</option>
+        </select>
+      </mat-form-field>
+    </td>
+  </tr>
+</table>
 
-  <button (click)="this.createNewTask()">Save</button>
-</form>
-
+<button mat-raised-button color="warn" (click)="this.createNewTask()">Save</button>
 
 <router-outlet></router-outlet>
